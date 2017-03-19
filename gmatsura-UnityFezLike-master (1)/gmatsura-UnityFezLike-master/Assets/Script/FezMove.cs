@@ -13,6 +13,9 @@ public class FezMove : MonoBehaviour {
 	public float JumpHeight = 0f;
 	public bool _jumping = false;
 	private float degree = 0;
+
+	public Transform firePoint;
+	public GameObject ninjaStar;
 	
 	
 	public FacingDirection CmdFacingDirection {
@@ -48,6 +51,12 @@ public class FezMove : MonoBehaviour {
 		}
 		
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, degree, 0), 8 * Time.deltaTime);
+
+
+
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			Instantiate (ninjaStar, firePoint.position, firePoint.rotation);
+		}
 		
 	}
 	
@@ -56,6 +65,7 @@ public class FezMove : MonoBehaviour {
 		Vector3 trans = Vector3.zero;
 		if(_myFacingDirection == FacingDirection.Front)
 		{
+			
 			trans = new Vector3(Horizontal* moveFactor, -Gravity * moveFactor, 0f);
 		}
 		else if(_myFacingDirection == FacingDirection.Right)
