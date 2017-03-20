@@ -4,6 +4,7 @@ using System.Collections;
 public class FezMove : MonoBehaviour {
 	
 	private int Horizontal = 0;
+  private int worldDirection = 1;
 	
 	public Animator anim;
 	public float MovementSpeed = 5f;
@@ -17,23 +18,30 @@ public class FezMove : MonoBehaviour {
 	public Transform firePoint;
 	public GameObject ninjaStar;
 	
-	
+	  
 	public FacingDirection CmdFacingDirection {
 		
 		set{ _myFacingDirection = value;
 		}
 		
 	}
+
+  public int getDirection() {
+    return worldDirection;
+  }
 	
 	// Update is called once per frame
 	void Update () {
 		
-		if (Input.GetAxis ("Horizontal") < 0)
-			Horizontal = -1;
-		else if (Input.GetAxis ("Horizontal") > 0)
-			Horizontal = 1;
-		else
-			Horizontal = 0;
+    if (Input.GetAxis ("Horizontal") < 0) {
+      Horizontal = -1;
+      worldDirection = -1;
+    } else if (Input.GetAxis ("Horizontal") > 0) {
+      Horizontal = 1;
+      worldDirection = 1;
+    } else {
+      Horizontal = 0;
+    }
 		
 		if (Input.GetKeyDown (KeyCode.Space) && !_jumping)
 		{
@@ -51,8 +59,6 @@ public class FezMove : MonoBehaviour {
 		}
 		
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, degree, 0), 8 * Time.deltaTime);
-
-
 
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			Instantiate (ninjaStar, firePoint.position, firePoint.rotation);
